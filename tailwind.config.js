@@ -15,7 +15,11 @@ export default {
     ],
 
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                maroon: '#631a37',
+            }
+        },
     },
 
     plugins: [forms, typography],
