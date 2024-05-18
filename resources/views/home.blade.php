@@ -1,35 +1,81 @@
-@extends('layout.app')
 
-<div class="bg-black">
+@extends('layout.app')
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/duration.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Extend dayjs with the duration plugin
+            dayjs.extend(window.dayjs_plugin_duration);
+
+            // Set the target date
+            let targetDate = dayjs("{{ $targetDate }}");
+
+            // Update the count down every 1 second
+            let countdownFunction = setInterval(() => {
+                // Get today's date and time
+                let now = dayjs();
+
+                // Find the distance between now and the target date
+                let duration = dayjs.duration(targetDate.diff(now));
+
+                // Time calculations for days, hours, minutes, and seconds
+                let days = Math.floor(duration.asDays());
+                let hours = duration.hours();
+                let minutes = duration.minutes();
+                let seconds = duration.seconds();
+
+                // Display the result in the respective divs
+                document.getElementById("days").innerText = days;
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+
+                // If the count down is over, write some text
+                if (duration.asMilliseconds() <= 0) {
+                    clearInterval(countdownFunction);
+                    document.getElementById("countdown").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        });
+    </script>
+</head>
+<body>
+<div class="bg-cover h-screen py-12" style="background-image: url('{{ asset('images/bg.jpeg') }}');">
     <div class="flex">
-        <img src="{{asset('images/socialmd.png')}}" alt="Phone" width="25%" class=""/>
+        <img src="{{asset('images/socialmd.png')}}" alt="Phone" width="30%"/>
         <div>
             <img src="{{ asset('images/WebLogo.png') }}" alt="Students" class="w-full h-32" />
             <p class="mt-2 text-white text-center">Soon to be home of Frontpage Social Platform </p>
             <p class="mt-5 text-white text-center">frontpage.social <span class="text-maroon">by MSHDLIVE</span></p>
-            <div class="flex space-x-2 mt-5 justify-center mx-auto w-8/12">
-                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center"> <!-- First div -->
-                    <h1 class="text-2xl">188</h1>
+            <div id="countdown" class="flex space-x-2 mt-5 justify-center mx-auto w-8/12">
+                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center">
+                    <h1 id="days" class="text-2xl">188</h1>
                     <p class="text-xs font-thin">DAYS</p>
-                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div> <!-- White section at the bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div>
                 </div>
 
-                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center"> <!-- Second div -->
-                    <h1 class="text-2xl">12</h1>
+                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center">
+                    <h1 id="hours" class="text-2xl">12</h1>
                     <p class="text-xs font-thin">HOURS</p>
-                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div> <!-- White section at the bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div>
                 </div>
 
-                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center"> <!-- Third div -->
-                    <h1 class="text-2xl">19</h1>
+                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center">
+                    <h1 id="minutes" class="text-2xl">19</h1>
                     <p class="text-xs font-thin">MINUTES</p>
-                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div> <!-- White section at the bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div>
                 </div>
 
-                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center"> <!-- Fourth div -->
-                    <h1 class="text-2xl">22</h1>
+                <div class="bg-maroon text-white py-3 px-4 text-center relative w-28 h-32 flex flex-col justify-center items-center">
+                    <h1 id="seconds" class="text-2xl">22</h1>
                     <p class="text-xs font-thin">SECONDS</p>
-                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div> <!-- White section at the bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-white h-2"></div>
                 </div>
             </div>
             <p class="mt-10 text-white text-center">Notify me when ready</p>
@@ -64,9 +110,11 @@
                     </a>
                 </div>
             </div>
-            </div>
         </div>
-
     </div>
 
 </div>
+
+
+</body>
+</html>
