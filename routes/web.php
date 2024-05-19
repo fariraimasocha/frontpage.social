@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('/', HomeController::class);
+Route::post('/store', [HomeController::class, 'store'])->name('email.store');
 
 //Route::middleware(['splade'])->group(function () {
 //

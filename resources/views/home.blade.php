@@ -46,6 +46,12 @@
     </script>
 </head>
 <body>
+@if(session('success'))
+    <div class="bg-green-500 text-white p-4 rounded mb-4">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="bg-cover h-screen py-12" style="background-image: url('{{ asset('images/bg.jpeg') }}');">
     <div class="flex">
         <img src="{{asset('images/socialmd.png')}}" alt="Phone" width="30%"/>
@@ -80,19 +86,23 @@
             </div>
             <p class="mt-10 text-white text-center">Notify me when ready</p>
             <div class="mt-4 flex w-8/12 justify-center mx-auto">
-                <input
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full focus:shadow-md"
-                    required
-                    autofocus
-                    autocomplete="username"
-                    placeholder="Get notification by email"
-                    style="flex: 1; height: 40px;"
-                />
-                <button class="bg-maroon text-white px-2 rounded-r py-2 h-10 mt-1" style="height: 40px;">
-                    Send
-                </button>
+                <form action="{{ route('email.store') }}" method="POST" class="flex w-full">
+                    @csrf
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="mt-1 block w-full focus:shadow-md"
+                        required
+                        autofocus
+                        autocomplete="username"
+                        placeholder="Get notification by email"
+                        style="flex: 1; height: 40px;"
+                    />
+                    <button type="submit" class="bg-maroon text-white px-2 rounded-r py-2 h-10 mt-1" style="height: 40px;">
+                        Send
+                    </button>
+                </form>
             </div>
             <div class="mt-10">
                 <div class="flex justify-center space-x-12 mt-4">
