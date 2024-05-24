@@ -46,11 +46,6 @@
     </script>
 </head>
 <body>
-@if(session('success'))
-    <div class="bg-green-500 text-white p-4 rounded mb-4">
-        {{ session('success') }}
-    </div>
-@endif
 
 <div class="bg-cover h-screen py-12" style="background-image: url('{{ asset('images/bg.jpeg') }}');">
     <div class="flex">

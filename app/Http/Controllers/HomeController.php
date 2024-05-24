@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Email;
+use App\Mail\ConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -34,13 +36,16 @@ class HomeController extends Controller
             'email' => 'required|email|unique:emails,email',
         ]);
 
-
-        Email::create([
+        $email = Email::create([
             'email' => $request->email,
         ]);
-        return redirect()->back()->with('success', 'Email successfully subscribed!');
 
+        // Send the confirmation email
+        Mail::to($request->email)->send(new ConfirmationMail($request->email));
+
+        return redirect()->back();
     }
+
 
     /**
      * Display the specified resource.
