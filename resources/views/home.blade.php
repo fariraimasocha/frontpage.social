@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown</title>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/duration.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -42,6 +42,36 @@
                     document.getElementById("countdown").innerHTML = "EXPIRED";
                 }
             }, 1000);
+
+            // Function to handle email submission using AJAX
+            function submitEmail(email) {
+                $.ajax({
+                    url: "{{ route('email.store') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        email: email,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Show success message without reloading the page
+                            alert("Your email has been submitted successfully!");
+                        } else {
+                            alert("Your email has been submitted successfully!");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error submitting email:", textStatus, errorThrown);
+                    }
+                });
+            }
+
+            // Submit email on form submit using AJAX
+            $("#email-form").submit(function(e) {
+                e.preventDefault();
+                let email = $("#email").val();
+                submitEmail(email);
+            });
         });
     </script>
 </head>
@@ -81,7 +111,7 @@
             </div>
             <p class="mt-10 text-white text-center">Notify me when ready</p>
             <div class="mt-4 flex w-8/12 justify-center mx-auto">
-                <form action="{{ route('email.store') }}" method="POST" class="flex w-full">
+                <form id="email-form" action="#" method="POST" class="flex w-full">
                     @csrf
                     <input
                         id="email"
